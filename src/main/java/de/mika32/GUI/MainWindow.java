@@ -1,36 +1,52 @@
 package de.mika32.GUI;
 
 import de.mika32.Constants.Colors;
-
+import javax.imageio.ImageIO;
 import javax.swing.*;
 import java.awt.*;
 import java.awt.event.*;
+import java.io.File;
+import java.io.IOException;
 
 public class MainWindow {
     private static int width = 1200;
     private static int height = 900;
-
     private static JPanel mMPanel = new JPanel();
     private static JFrame mMFrame = new JFrame();
-
     private static JButton startButton = new JButton();
     private static JButton fillLaterButton = new JButton();
     private static JButton quitButton = new JButton();
-
     private static GridBagConstraints gbc = new GridBagConstraints();
 
     public static void loadMenu(){
         mMFrame = createMainWindow(mMFrame);
         mMPanel = createMainPanel(mMPanel);
-        addPanelContent();
 
+        addBackground();
+        addPanelContent();
         finalLoadFrame();
+    }
+
+    private static void addBackground(){
+        try {
+            Image backgroundImage = ImageIO.read(new File("C:/Users/Mika/IdeaProjects/Snake/src/main/resources/backSnake.jpg"));
+            mMFrame.setContentPane(new JPanel() {
+                @Override
+                protected void paintComponent(Graphics g) {
+                    super.paintComponent(g);
+                    g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
+                }
+            });
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        mMFrame.revalidate();
     }
 
     private static void addPanelContent(){
         int buttonWidth = 50;
         int buttonHeight = 10;
-
 
         startButton.setText("Start");
         fillLaterButton.setText("Options");
@@ -39,8 +55,6 @@ public class MainWindow {
         startButton = createMenuButton(startButton);
         fillLaterButton = createMenuButton(fillLaterButton);
         quitButton = createMenuButton(quitButton);
-
-
 
         gbc.ipadx = buttonWidth; // Breite des Buttons
         gbc.ipady = buttonHeight;
@@ -58,14 +72,16 @@ public class MainWindow {
 
     private static void finalLoadFrame(){
         mMFrame.add(mMPanel);
-
-
+        mMFrame.revalidate(); // Wichtig, um die Anzeige zu aktualisieren
     }
 
     private static JFrame createMainWindow(JFrame frame){
+        Image Icon = Toolkit.getDefaultToolkit().getImage("C:/Users/Mika/IdeaProjects/Snake/src/main/resources/snakeIco.jpg");
+
         frame.setTitle("Snake");
         frame.setDefaultCloseOperation(WindowConstants.EXIT_ON_CLOSE);
         frame.setSize(width, height);
+        frame.setIconImage(Icon);
         frame.setResizable(false);
         frame.setLocationRelativeTo(null);
         frame.setVisible(true);
@@ -81,6 +97,7 @@ public class MainWindow {
         panel.setBackground(Color.BLACK);
         panel.setSize(200, 300);
         panel.setFocusable(false);
+
 
         gbc.gridx = 0;
         gbc.gridy = 0;
