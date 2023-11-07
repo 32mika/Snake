@@ -23,8 +23,9 @@ public class MainWindow {
     public static void loadMenu() {
         createMainWindow(mMFrame);
 
-        addButtons();
         addBackground();
+        addButtons();
+        addTitel();
         loadFrame();
     }
 
@@ -50,45 +51,79 @@ public class MainWindow {
             InputStream imageStream = ResourceLoader.loadResource("backSnake.jpg");
             Image backgroundImage = ImageIO.read(imageStream);
             System.out.println("Bildpfad: " + imageStream);
-            JPanel backgroundPanel = new JPanel();
 
-            mMLayeredPane.add(new JPanel() {
+
+            JPanel backgroundPanel;
+            backgroundPanel = new JPanel() {
                 @Override
                 protected void paintComponent(Graphics g) {
                     super.paintComponent(g);
                     g.drawImage(backgroundImage, 0, 0, getWidth(), getHeight(), this);
                 }
-            }, 0);
+            };
+
+            backgroundPanel.setBounds(0, 0, width, height);
+            mMLayeredPane.add(backgroundPanel, 4);
+
         } catch (IOException e) {
             System.out.println("Error" + e.getMessage());
         }
     }
 
     private static void addButtons() {
+        int xcord = 15;
+        int ycord = 275;
+        int buttonDistance = 80;
+
         createMenuButton(startButton);
         createMenuButton(fillLaterButton);
         createMenuButton(quitButton);
 
-        startButton.setBounds(450, 300, 300, 100);
-        fillLaterButton.setBounds(450, 450, 300, 100);
-        quitButton.setBounds(450, 600, 300, 100);
+        startButton.setBounds(xcord, ycord, 300, 100);
+        fillLaterButton.setBounds(xcord +40, ycord + buttonDistance, 300, 100);
+        quitButton.setBounds(xcord -5, ycord + buttonDistance*2, 300, 100);
 
         startButton.setText("Start");
         fillLaterButton.setText("Options");
         quitButton.setText("Quit");
 
-        mMLayeredPane.add(startButton, 1);
+        mMLayeredPane.add(startButton, 0);
         mMLayeredPane.add(fillLaterButton, 1);
-        mMLayeredPane.add(quitButton, 1);
+        mMLayeredPane.add(quitButton, 2);
+    }
+
+    private static void addTitel(){
+        JPanel titelPanel = new JPanel(new BorderLayout());
+        JLabel titel = new JLabel("Snake");
+
+        titel.setFont(new Font("Forte", Font.BOLD, 120));
+        titel.setForeground(Colors.textGreen);
+
+        titelPanel.setBounds(mMFrame.getWidth() /2 -290, 0, 500, 200);
+        titelPanel.setOpaque(false);
+        titelPanel.add(titel, BorderLayout.WEST);
+
+        try {
+            InputStream imageStream = ResourceLoader.loadResource("snakeTitel.png");
+            Image icon = ImageIO.read(imageStream);
+            System.out.println("Bildpfad: " + imageStream);
+            titelPanel.add(new JLabel(new ImageIcon(icon)), BorderLayout.EAST);
+
+        } catch (IOException e) {
+            e.printStackTrace();
+        }
+
+        mMLayeredPane.add(titelPanel, 3);
     }
 
     private static void loadFrame() {
         mMLayeredPane.setBounds(0, 0, width, height);
         mMFrame.add(mMLayeredPane);
+
         mMFrame.setVisible(true);
         mMFrame.setLocationRelativeTo(null);
-        mMFrame.revalidate();
-        mMFrame.repaint();
+        mMLayeredPane.revalidate();
+        mMLayeredPane.repaint();
     }
 
     private static void createMenuButton(JButton button) {
