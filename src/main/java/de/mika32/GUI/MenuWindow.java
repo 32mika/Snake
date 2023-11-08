@@ -37,6 +37,7 @@ public class MenuWindow {
         frame.setLayout(null);
         frame.setSize(width, height);
         frame.setResizable(false);
+        frame.setFocusable(true);
 
         try {
             InputStream imageStream = ResourceLoader.loadResource("snakeico.jpg");
@@ -116,6 +117,7 @@ public class MenuWindow {
 
     private static void loadFrame() {
         mMLayeredPane.setBounds(0, 0, width, height);
+        mMLayeredPane.setFocusable(true);
         mMFrame.add(mMLayeredPane);
 
         mMFrame.setVisible(true);
@@ -128,6 +130,7 @@ public class MenuWindow {
         button.setFont(new Font("Forte", Font.BOLD, 55));
         button.setForeground(Colors.textGreen);
         button.setFocusPainted(false);
+        button.setFocusable(true);
 
         button.setOpaque(false);
         button.setContentAreaFilled(false);
@@ -139,7 +142,7 @@ public class MenuWindow {
                 if (button.getText().equals("Start")) {
                     mMLayeredPane.removeAll();
                     addBackground();
-                    startGame(mMFrame, mMLayeredPane);
+                    startGame(mMFrame);
                 }
 
                 if (button.getText().equals("Options")) {

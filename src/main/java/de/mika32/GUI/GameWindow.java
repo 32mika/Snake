@@ -7,7 +7,7 @@ public class GameWindow {
     private static JLayeredPane mGLayeredPane = new JLayeredPane();
     private static JPanel snakePanel = new JPanel();
 
-    public static void startGame(JFrame mainWindow, JLayeredPane layeredPane) {
+    public static void startGame(JFrame mainWindow) {
            mGFrame = mainWindow;
            snakePanel = new SnakePanel();
            loadFrame();
@@ -17,10 +17,11 @@ public class GameWindow {
         mGFrame.setVisible(true);
         mGFrame.setLocationRelativeTo(null);
 
+
         mGLayeredPane.setBounds(0, 0, 1200, 900);
         mGLayeredPane.setVisible(true);
         mGLayeredPane.setLayout(null);
-        mGLayeredPane.add(snakePanel,  0);
+        mGLayeredPane.add(snakePanel, 0);
 
 
         mGFrame.add(mGLayeredPane);
