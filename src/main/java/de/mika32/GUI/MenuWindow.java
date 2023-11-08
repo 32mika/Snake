@@ -10,7 +10,9 @@ import java.awt.event.*;
 import java.io.IOException;
 import java.io.InputStream;
 
-public class MainWindow {
+import static de.mika32.GUI.GameWindow.*;
+
+public class MenuWindow {
     private static final int width = 1200;
     private static final int height = 900;
     private static JLayeredPane mMLayeredPane = new JLayeredPane();
@@ -39,7 +41,6 @@ public class MainWindow {
         try {
             InputStream imageStream = ResourceLoader.loadResource("snakeico.jpg");
             Image icon = ImageIO.read(imageStream);
-            System.out.println("Bildpfad: " + imageStream);
             frame.setIconImage(icon);
         } catch (IOException e) {
             e.printStackTrace();
@@ -50,8 +51,6 @@ public class MainWindow {
         try {
             InputStream imageStream = ResourceLoader.loadResource("backSnake.jpg");
             Image backgroundImage = ImageIO.read(imageStream);
-            System.out.println("Bildpfad: " + imageStream);
-
 
             JPanel backgroundPanel;
             backgroundPanel = new JPanel() {
@@ -106,7 +105,6 @@ public class MainWindow {
         try {
             InputStream imageStream = ResourceLoader.loadResource("snakeTitel.png");
             Image icon = ImageIO.read(imageStream);
-            System.out.println("Bildpfad: " + imageStream);
             titelPanel.add(new JLabel(new ImageIcon(icon)), BorderLayout.EAST);
 
         } catch (IOException e) {
@@ -139,7 +137,13 @@ public class MainWindow {
             @Override
             public void mousePressed(MouseEvent e) {
                 if (button.getText().equals("Start")) {
-                    // Start logic
+                    mMLayeredPane.removeAll();
+                    addBackground();
+                    startGame(mMFrame, mMLayeredPane);
+                }
+
+                if (button.getText().equals("Options")) {
+                    // Options logic
                 }
 
                 if (button.getText().equals("Quit")) {
